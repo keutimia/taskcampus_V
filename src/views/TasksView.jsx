@@ -1,6 +1,6 @@
 import TaskList from "../components/TaskList";
 
-const TasksView = ({ tareasFiltradas, filtro, onCambiarFiltro, onToggle, onEliminar, cargando, error }) => {
+const TasksView = ({ tareasFiltradas, filtro, onCambiarFiltro, onToggle, onEliminar, onEditar, cargando, error }) => {
   return (
     <section>
       <TaskList
@@ -9,6 +9,7 @@ const TasksView = ({ tareasFiltradas, filtro, onCambiarFiltro, onToggle, onElimi
         onCambiarFiltro={onCambiarFiltro}
         onToggle={onToggle}
         onEliminar={onEliminar}
+        onEditar={onEditar}
         cargando={cargando}
         error={error}
       />

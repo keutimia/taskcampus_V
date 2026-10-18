@@ -5,6 +5,7 @@ import SummaryView from "./views/SummaryView";
 import TasksView from "./views/TasksView";
 import NewTaskView from "./views/NewTaskView";
 import Navigation from "./components/Navigation";
+import Modal from "./components/Modal";
 import "./App.css";
 
 const App = () => {
@@ -19,6 +20,8 @@ const App = () => {
   } = useTareas();
 
   const [filtro, setFiltro] = useState("todas");
+  
+  const [tareaAEliminar, setTareaAEliminar] = useState(null);
 
   const tareasFiltradas = tareas.filter((t) => {
     if (filtro === "completadas") return t.completada;
@@ -30,10 +33,17 @@ const App = () => {
     actualizarTarea(id, { completada: !completadaActual });
   };
 
+  const handleConfirmarEliminacion = () => {
+    if (tareaAEliminar) {
+      eliminarTarea(tareaAEliminar.id);
+      setTareaAEliminar(null);
+    }
+  };
+
   return (
     <main className="app-container">
       <Header title="TaskCampus" description="Gestor de tareas académicas" />
-      
+
       <Navigation vistaActiva={vistaActiva} setVistaActiva={setVistaActiva} />
 
       {vistaActiva === "resumen" && (
@@ -50,7 +60,8 @@ const App = () => {
           filtro={filtro}
           onCambiarFiltro={setFiltro}
           onToggle={handleToggleCompletada}
-          onEliminar={eliminarTarea}
+          onEliminar={setTareaAEliminar} 
+          onEditar={actualizarTarea}     
           cargando={cargando}
           error={error}
         />
@@ -61,6 +72,13 @@ const App = () => {
           onAgregar={crearTarea} 
         />
       )}
+
+      <Modal
+        visible={tareaAEliminar !== null}
+        mensaje="¿Seguro que deseas eliminar esta tarea? Esta acción no se puede deshacer."
+        onConfirmar={handleConfirmarEliminacion}
+        onCancelar={() => setTareaAEliminar(null)}
+      />
     </main>
   );
 };
