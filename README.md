@@ -1,7 +1,7 @@
 # TaskCampus - Laboratorio React
 
 **Integrantes:**
-Vianca Viveros
+Vianca Viveros,
 Joaquín Orellana
 
 **Repositorio Git público:** https://github.com/keutimia/taskcampus_V
@@ -25,20 +25,20 @@ Se utilizó JSONPlaceholder para simular las peticiones HTTP. Sus operaciones de
 ### 4. Investigación y Aplicación al Proyecto
 
 **A. Navegación entre vistas**
-* **Explicación:** En lugar de usar un enrutador como react-router, se controló la vista activa mediante el estado local vistaActiva en App.jsx.
-* **Aplicación:** El componente Navigation.jsx recibe setVistaActiva para cambiar este estado. En App.jsx, usamos operadores lógicos && para renderizar condicionalmente SummaryView, TasksView o NewTaskView dependiendo de qué vista esté activa, manteniendo intactas las tareas y filtros en memoria. 
+**Explicación:** En lugar de usar un enrutador como react-router, se controló la vista activa mediante el estado local vistaActiva en App.jsx.
+**Aplicación:** El componente Navigation.jsx recibe setVistaActiva para cambiar este estado. En App.jsx, usamos operadores lógicos && para renderizar condicionalmente SummaryView, TasksView o NewTaskView dependiendo de qué vista esté activa, manteniendo intactas las tareas y filtros en memoria. 
 
 **B. Estado derivado**
-* **Explicación:** Es la técnica de calcular información al vuelo a partir del estado principal, en lugar de crear un nuevo estado redundante que pueda desincronizarse.
-* **Aplicación:** En App.jsx, tareasFiltradas se calcula directamente usando .filter() sobre el array de tareas, dependiendo del valor de filtro. En TaskSummary.jsx, los contadores de completadas y pendientes se derivan directamente de la longitud de estos arrays filtrados.
+**Explicación:** Es la técnica de calcular información al vuelo a partir del estado principal, en lugar de crear un nuevo estado redundante que pueda desincronizarse.
+**Aplicación:** En App.jsx, tareasFiltradas se calcula directamente usando .filter() sobre el array de tareas, dependiendo del valor de filtro. En TaskSummary.jsx, los contadores de completadas y pendientes se derivan directamente de la longitud de estos arrays filtrados.
 
 **C. Actualización funcional del estado**
-* **Explicación:** Consiste en pasar una función al setter de useState (ej: setTareas(prev => ...)) cuando el nuevo estado depende directamente de los valores del estado anterior, garantizando que no haya condiciones de carrera.
-* **Aplicación:** Se aplicó en useTareas.js en las funciones crearTarea, actualizarTarea y eliminarTarea, iterando o filtrando sobre el parámetro prev para asegurar inmutabilidad.
+**Explicación:** Consiste en pasar una función al setter de useState (ej: setTareas(prev => ...)) cuando el nuevo estado depende directamente de los valores del estado anterior, garantizando que no haya condiciones de carrera.
+**Aplicación:** Se aplicó en useTareas.js en las funciones crearTarea, actualizarTarea y eliminarTarea, iterando o filtrando sobre el parámetro prev para asegurar inmutabilidad.
 
 **D. Identificadores y API simulada**
-* **Explicación:** Al hacer un POST a JSONPlaceholder, la API siempre devuelve el mismo identificador (id: 201). Si React recibe múltiples elementos con la misma key, genera errores y fallos de renderizado.
-* **Aplicación:** En la función crearTarea de useTareas.js, interceptamos la respuesta exitosa de la API y reemplazamos el identificador remoto por uno local único usando Date.now(). Esto asegura claves únicas y estables para operaciones futuras durante la misma sesión.
+**Explicación:** Al hacer un POST a JSONPlaceholder, la API siempre devuelve el mismo identificador (id: 201). Si React recibe múltiples elementos con la misma key, genera errores y fallos de renderizado.
+**Aplicación:** En la función crearTarea de useTareas.js, interceptamos la respuesta exitosa de la API y reemplazamos el identificador remoto por uno local único usando Date.now(). Esto asegura claves únicas y estables para operaciones futuras durante la misma sesión.
 
 ### 5. Evidencias Verificables (Casos de Prueba)
 
