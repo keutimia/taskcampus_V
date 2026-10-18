@@ -1,32 +1,71 @@
-const tasks = ['Aprender qué es React', 'Crear proyecto con Vite', 'Practicar JSX']
-function showTask(taskName) {
-    alert(`Has seleccionado la tarea: ${taskName}`)
-  }
-function TaskList() {
-    return (
+import { useState } from "react";
+import TaskItem from "./TaskItem";
+
+const TaskList = ({ tareas, filtro, onCambiarFiltro, onToggle, onEliminar, onEditar, cargando, error }) => {
+  const [busqueda, setBusqueda] = useState("");
+
+  const tareasFiltradasPorTexto = tareas.filter((tarea) =>
+    tarea.titulo.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
+  return (
     <section className="card">
       <h2 className="section-title">Listado de tareas</h2>
-      <ul className="task-list">
-          <li className="task-item">
-            {tasks[0]} 
-            <button onClick={() => showTask(tasks[0])} className="task-button">
-                Seleccionar
-            </button>          
-          </li>
-          <li className="task-item">
-            {tasks[1]} 
-            <button onClick={() => showTask(tasks[1])} className="task-button">
-                Seleccionar
-            </button>          
-          </li>
-          <li className="task-item">
-            {tasks[2]} 
-            <button onClick={() => showTask(tasks[2])} className="task-button">
-                Seleccionar
-            </button>          
-          </li>          
-      </ul>
+
+      <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+        <button 
+          onClick={() => onCambiarFiltro("todas")}
+          style={{ fontWeight: filtro === "todas" ? "bold" : "normal" }}
+        >
+          Todas
+        </button>
+        <button 
+          onClick={() => onCambiarFiltro("pendientes")}
+          style={{ fontWeight: filtro === "pendientes" ? "bold" : "normal" }}
+        >
+          Pendientes
+        </button>
+        <button 
+          onClick={() => onCambiarFiltro("completadas")}
+          style={{ fontWeight: filtro === "completadas" ? "bold" : "normal" }}
+        >
+          Completadas
+        </button>
+      </div>
+
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Buscar tarea por título..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+        />
+      </div>
+
+      {cargando && <p>⏳ Cargando tareas...</p>}
+      {error && <p style={{ color: "red" }}>⚠️ Error: {error}</p>}
+      
+      {!cargando && !error && tareasFiltradasPorTexto.length === 0 && (
+        <p>No se encontraron tareas.</p>
+      )}
+
+      {!cargando && !error && (
+        <ul className="task-list" style={{ listStyle: "none", padding: 0 }}>
+          {tareasFiltradasPorTexto.map((tarea) => (
+            <TaskItem
+              key={tarea.id}
+              tarea={tarea}
+              onToggle={onToggle}
+              onSolicitarEliminar={onEliminar}
+              onEditar={onEditar}
+              deshabilitado={cargando}
+            />
+          ))}
+        </ul>
+      )}
     </section>
-  )
-}
-export default TaskList
+  );
+};
+
+export default TaskList;
